@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Everyday ToDo</title>
+</head>
+<body>
+    <div id="pageBanner">Everyday ToDo</div>
+    <div id="content">
+        <div id="navBar">
+            <div class="navBarBanner">Projects
+                <button id="addProject">+</button>
+            </div>
+            <div id="navBarProjectContainer" class="navBarProjectContainer"></div>
+        </div>
+        <div id ="mainOpenTaskContainer" class="mainOpenTaskContainer"></div>
+    </div>
+    <div id="editTaskLayer" class="editItemLayer">
+        <div id="editTask">
+            <input type="button" id="editTaskDelete" value="Delete">
+            <input type="button" id="editTaskCancel" value="Cancel"><br><br>
+            <label for="editTaskTitle">Name:</label><br>
+            <input type="text" id="editTaskTitle"><br>
+            <label for="editTaskDueDate">Due Date:</label><br>
+            <input type="date" id="editTaskDueDate"><br>
+            <label for="editTaskPriority">Priority:</label><br>
+            <input type="text" id="editTaskPriority"><br>
+            <label for="editTaskDuration">Duration:</label><br>
+            <input type="text" id="editTaskDuration"><br>
+            <label for="editTaskProject">Project:</label><br>
+            <select id="editTaskProject"></select><br>
+            <label for="editTaskNotes">Notes:</label><br>
+            <input type="text" id="editTaskNotes"><br>
+            <input type="hidden" id="editTaskProjectOrig">
+            <input type="hidden" id="editTaskNum">
+            <input type="hidden" id="editTaskStatus">
+            <input type="button" id="editTaskSubmit" value="Submit">
+        </div>
+    </div>
+    <div id="editProjectLayer" class="editItemLayer">
+        <div id="editProject">
+            <input type="button" id="editProjectDelete" value="Delete">
+            <input type="button" id="editProjectCancel" value="Cancel"><br><br>
+            <label for="editProjectTitle">Name:</label><br>
+            <input type="text" id="editProjectTitle"><br>
+            <input type="hidden" id="editProjectNum">
+            <input type="hidden" id="projectNew">
+            <input type="button" id="editProjectSubmit" value="Submit">
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+
+<!--   Task outline
+    Creating a ToDo list with the ability to have larger projects that have individual ToDo's within them
+    Items needed are title, description, dueDate and priority, expected duration, project, notes, status(open,completed,hidden)
+    User abilities:
+        view all projects
+        view all todos in each project (probably just the title and duedate.. perhaps changing color for different priorities)
+        expand a single todo to see/edit its details
+        delete a todo
+
+1) create the initial outline in CSS / design new instance with left navigation bar
+    button to add project (done)
+    button to add tasks (done)
+    area to add projects (done)
+    area to add tasks (Done)
+
+2) create elements to display projects and tasks
+    display projects (done)
+    display tasks (done)
+
+3) create elements to interact with projects and tasks
+    add project (done)
+    update/delete project (done)
+    add task (done)
+    update/delete task (done)
+    compelete task (done)
+
+4) integrate local storage
+
+-->
