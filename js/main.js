@@ -1,36 +1,20 @@
-class Task { 
-    constructor(title, dueDate, priority, duration, project, notes, status) {
-        this.title = title;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.duration = duration;
-        this.project = project;
-        this.notes = notes;
-        this.status = status;
-    }
+function updateProjectStorage(projectNum, key, value) {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    projectsLS[projectNum][key] = value;
+    localStorage.projects = JSON.stringify(projectsLS);
 }
 
-class Project { 
-    constructor(title, status, openTasks, completedTasks, hiddenTasks) {
-        this.title = title;
-        this.status = status;
-        this.openTasks = openTasks;
-        this.completedTasks = completedTasks;
-        this.hiddenTasks = hiddenTasks;
-    }
+function addProjectStorage(insertNewProject) {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    projectsLS.push(insertNewProject);
+    localStorage.projects = JSON.stringify(projectsLS);
 }
 
-//Test Tasks
-var taskNum1 = new Task("Workout", new Date(2020, 11, 31), 1, 120, project1, "Doing great with your routine, keep it up!", "open");
-var taskNum2 = new Task("Meditate", new Date(2020, 11, 20), 2, 120, project1, "Keep meditating!", "open");
-var taskNum3 = new Task("Work on Project", new Date(2020, 11, 11), 3, 440, project2, "Almost done with that project, time to finish it up!", "open");
-var taskNum4 = new Task("Lost Task", new Date(2020, 11, 11), 4, 120, project0, "This task lost it's project home :(", "open");
-var taskNum5 = new Task("Climb Mount Everest", new Date(2020, 11, 01), 1, 1440, project1, "Get to the top!", "completed");
-//Default projects
-var project0 = new Project("Uncategorized", true, [taskNum4], [], []);
-var project1 = new Project("Personal", true, [taskNum1,taskNum2], [taskNum5], []);
-var project2 = new Project("Work", true, [taskNum3], [], []);
-var projects = [project0, project1, project2];
+function updateTaskStorage(projectNum, taskNum, taskType, taskObject) {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    projectsLS[projectNum][taskType][taskNum] = taskObject;
+    localStorage.projects = JSON.stringify(projectsLS);
+}
 
 editTaskCancel.addEventListener("click", ()=> {
     document.querySelector("#editTaskLayer").style.display = "none";
@@ -49,10 +33,11 @@ addProject.addEventListener("click", ()=> {
 
 editProjectDelete.addEventListener("click", ()=> {
     const projectNum = document.querySelector('#editProjectNum').value;
-    projects[projectNum] = false;
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    updateProjectStorage(projectNum, "status", false);
     let nextAvailProject = 0;
-    for (let i = 1, n = projects.length ; i < n ; i++) {
-        if (projects[i].status == true) {
+    for (let i = 1, n = projectsLS.length ; i < n ; i++) {
+        if (projectsLS[i].status == true) {
             nextAvailProject = i;
             break;
         }
@@ -72,13 +57,13 @@ editProjectSubmit.addEventListener("click", ()=> {
         
         if (projectNew == "false") {
             projectNum = document.querySelector('#editProjectNum').value;
-            projects[projectNum].title = title;
+            updateProjectStorage(projectNum, "title", title);
         }
         else {
             var insertNewProject = new Project(title, true, [], [], []);
-            projects.push(insertNewProject);
-            projectNum = projects.length-1;
-
+            addProjectStorage(insertNewProject);
+            const projectsLS = JSON.parse(localStorage.getItem("projects"));
+            projectNum = projectsLS.length-1;
             var editTaskProject = document.querySelector('#editTaskProject');
             var newOption = document.createElement('option');
             newOption.textContent = title;
@@ -92,10 +77,11 @@ editProjectSubmit.addEventListener("click", ()=> {
 })
 
 editTaskSubmit.addEventListener("click", ()=> {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
     const taskNum = document.querySelector('#editTaskNum').value;
     const projectNum = document.querySelector('#editTaskProject').value;
     const projectNumOrig = document.querySelector('#editTaskProjectOrig').value;
-    const currentTask = projects[projectNumOrig].openTasks[taskNum];
+    const currentTask = projectsLS[projectNumOrig].openTasks[taskNum];
     const title = document.querySelector('#editTaskTitle').value;
     const dueDate = document.querySelector('#editTaskDueDate').value;
     const dueDateInsert = new Date(dueDate.substring(0,4), (dueDate.substring(5,7)) - 1, dueDate.substring(8,10));
@@ -107,32 +93,37 @@ editTaskSubmit.addEventListener("click", ()=> {
         currentTask.priority = priority;
         currentTask.duration = document.querySelector('#editTaskDuration').value;
         currentTask.notes = document.querySelector('#editTaskNotes').value;
+        updateTaskStorage(projectNumOrig, taskNum, "openTasks", currentTask);
+
         if (projectNum != projectNumOrig) {
-            currentTask.project = projects[projectNum];
-            projects[projectNum].openTasks.push(projects[projectNumOrig].openTasks[taskNum]);
-            projects[projectNumOrig].openTasks.splice(taskNum, 1);
+            projectsLS[projectNum].openTasks.push(projectsLS[projectNumOrig].openTasks[taskNum]);
+            projectsLS[projectNumOrig].openTasks.splice(taskNum, 1);
+            localStorage.projects = JSON.stringify(projectsLS);
             displayProjects(projectNum);
         }
-        
+
         displayTasks(projectNum);
         document.querySelector("#editTaskLayer").style.display = "none";
     }
 })
 
 editTaskDelete.addEventListener("click", (details)=> {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
     const taskStatus = document.querySelector('#editTaskStatus').value;
     const taskNum = document.querySelector('#editTaskNum').value;
     const projectNum = document.querySelector('#editTaskProject').value;
     
     if (taskStatus == "open") {
-        projects[projectNum].hiddenTasks.push(projects[projectNum].openTasks[taskNum]);
-        projects[projectNum].openTasks[taskNum].status = "hidden";
-        projects[projectNum].openTasks.splice(taskNum, 1);
+        projectsLS[projectNum].hiddenTasks.push(projectsLS[projectNum].openTasks[taskNum]);
+        projectsLS[projectNum].openTasks[taskNum].status = "hidden";
+        projectsLS[projectNum].openTasks.splice(taskNum, 1);
+        localStorage.projects = JSON.stringify(projectsLS);
     }
     else if (taskStatus == "completed") {
-        projects[projectNum].hiddenTasks.push(projects[projectNum].completedTasks[taskNum]);
-        projects[projectNum].completedTasks[taskNum].status = "hidden";
-        projects[projectNum].completedTasks.splice(taskNum, 1);
+        projectsLS[projectNum].hiddenTasks.push(projectsLS[projectNum].completedTasks[taskNum]);
+        projectsLS[projectNum].completedTasks[taskNum].status = "hidden";
+        projectsLS[projectNum].completedTasks.splice(taskNum, 1);
+        localStorage.projects = JSON.stringify(projectsLS);
     }
 
     displayProjects(projectNum);
@@ -141,7 +132,8 @@ editTaskDelete.addEventListener("click", (details)=> {
 })
 
 function makeProjectActive(projectNum) {
-    for (let i = 0; i < projects.length; i++) {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    for (let i = 0; i < projectsLS.length; i++) {
         const element = document.querySelectorAll("[data-navNum='" + i + "']");
         for (let x = 0; x < element.length; x++) {
             element[x].classList.remove("active");
@@ -156,15 +148,19 @@ function makeProjectActive(projectNum) {
 }
 
 function changeTaskStatus(taskNum, projectNum, status) {
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    
     if (status == "open") {    
-        projects[projectNum].completedTasks.push(projects[projectNum].openTasks[taskNum]);
-        projects[projectNum].openTasks[taskNum].status = "completed";
-        projects[projectNum].openTasks.splice(taskNum, 1);
+        projectsLS[projectNum].completedTasks.push(projectsLS[projectNum].openTasks[taskNum]);
+        projectsLS[projectNum].openTasks[taskNum].status = "completed";
+        projectsLS[projectNum].openTasks.splice(taskNum, 1);
+        localStorage.projects = JSON.stringify(projectsLS);
     }
-    if (status == "completed") {
-        projects[projectNum].openTasks.push(projects[projectNum].completedTasks[taskNum]);
-        projects[projectNum].completedTasks[taskNum].status = "open";
-        projects[projectNum].completedTasks.splice(taskNum, 1);
+    else if (status == "completed") {
+        projectsLS[projectNum].openTasks.push(projectsLS[projectNum].completedTasks[taskNum]);
+        projectsLS[projectNum].completedTasks[taskNum].status = "open";
+        projectsLS[projectNum].completedTasks.splice(taskNum, 1);
+        localStorage.projects = JSON.stringify(projectsLS);
     }
     displayProjects(projectNum);
     setTimeout(displayTasks, 400, projectNum);
@@ -181,13 +177,15 @@ function cancelAddTask() {
 }
 
 function formatDate(value) {
-   return (value.getMonth() + 1) + "/" + value.getDate() + "/" + value.getFullYear();
+    const convertDate = new Date(value);
+    return (convertDate.getMonth() + 1) + "/" + convertDate.getDate() + "/" + convertDate.getFullYear();
 }
 
 function formatDateForEdit(value) {
-    const month = (value.getMonth() + 1 > 9) ? (value.getMonth() + 1) : "0" + (value.getMonth() + 1)
-    const date = (value.getDate() + 1 > 9) ? (value.getDate()) : "0" + (value.getDate())
-    return value.getFullYear() + "-" + month + "-" + date;
+    const convertDate = new Date(value);
+    const month = (convertDate.getMonth() + 1 > 9) ? (convertDate.getMonth() + 1) : "0" + (convertDate.getMonth() + 1)
+    const date = (convertDate.getDate() + 1 > 9) ? (convertDate.getDate()) : "0" + (convertDate.getDate())
+    return convertDate.getFullYear() + "-" + month + "-" + date;
 }
 
 function addNewTask() {
@@ -201,8 +199,10 @@ function addNewTask() {
     const taskStatus = "open";
 
     if (formPriority != "" && formTitle != "" && formDate != "") {
-        var intsertTask = new Task(formTitle, formDate, formPriority, formDuration, projects[projectNum], formNotes, taskStatus);
-        projects[projectNum].openTasks.push(intsertTask);
+        const projectsLS = JSON.parse(localStorage.getItem("projects"));
+        var intsertTask = new Task(formTitle, formDate, formPriority, formDuration, formNotes, taskStatus);
+        projectsLS[projectNum].openTasks.push(intsertTask);
+        localStorage.projects = JSON.stringify(projectsLS);
         displayProjects(projectNum);
         displayTasks(projectNum);
     }
@@ -210,22 +210,24 @@ function addNewTask() {
 
 function generateProjectOptionsToDropdown() {
     var editTaskProject = document.querySelector('#editTaskProject');
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
 
-    for (let i = 1, n = projects.length; i < n; i++) {
+    for (let i = 1, n = projectsLS.length; i < n; i++) {
         var newOption = document.createElement('option');
-        newOption.textContent = projects[i].title;
+        newOption.textContent = projectsLS[i].title;
         newOption.value = i;
         editTaskProject.add(newOption, 0);
     }
 }
 
 function openTaskEdit(taskNum, projectNum, taskStatus) {
-    const currentTask = (taskStatus == "open") ? projects[projectNum].openTasks[taskNum] : projects[projectNum].completedTasks[taskNum];
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    const currentTask = (taskStatus == "open") ? projectsLS[projectNum].openTasks[taskNum] : projectsLS[projectNum].completedTasks[taskNum];
     document.querySelector('#editTaskTitle').value = currentTask.title;
     document.querySelector('#editTaskDueDate').value = formatDateForEdit(currentTask.dueDate);
     document.querySelector('#editTaskPriority').value = currentTask.priority;
     document.querySelector('#editTaskDuration').value = currentTask.duration;
-    document.querySelector('#editTaskProject').selected = projects[projectNum].title;
+    document.querySelector('#editTaskProject').selected = projectsLS[projectNum].title;
     document.querySelector('#editTaskNotes').value = currentTask.notes;
     document.querySelector('#editTaskProject').value = projectNum;
     document.querySelector('#editTaskProjectOrig').value = projectNum;
@@ -237,7 +239,8 @@ function openTaskEdit(taskNum, projectNum, taskStatus) {
 
 function openProjectEdit(projectNum) {
     document.querySelector('#editProjectNum').value = projectNum;
-    document.querySelector('#editProjectTitle').value = projects[projectNum].title;
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+    document.querySelector('#editProjectTitle').value = projectsLS[projectNum].title;
     document.querySelector('#projectNew').value = false;
 
     document.querySelector("#editProjectLayer").style.display = "block";
@@ -246,6 +249,7 @@ function openProjectEdit(projectNum) {
 function displayProjects(activeProject) {
     document.querySelector('#navBarProjectContainer').innerHTML = "";
     const navBarProjectContainer = document.querySelector('#navBarProjectContainer');
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
 
     function insertProject(projectNum) {
         const navBarProject = document.createElement("div");
@@ -266,32 +270,34 @@ function displayProjects(activeProject) {
         const addElement2 = document.createElement("input");
         addElement2.setAttribute("type", "button");
         addElement2.setAttribute("data-navNum", projectNum);
-        addElement2.setAttribute("value", projects[projectNum].title);
+        addElement2.setAttribute("value", projectsLS[projectNum].title);
         (projectNum == activeProject) ? addElement2.className = "navBarProjectButton navBarProjectHover active" : addElement2.className = "navBarProjectButton navBarProjectHover";
         navBarProject.appendChild(addElement2);
 
         const addElement3 = document.createElement("p");
         addElement3.setAttribute("data-navNum", projectNum);
         (projectNum == activeProject) ? addElement3.className = "navBarProjectCount navBarProjectHover active" : addElement3.className = "navBarProjectCount navBarProjectHover";
-        const textNode = document.createTextNode(projects[projectNum].openTasks.length);
+        const textNode = document.createTextNode(projectsLS[projectNum].openTasks.length);
         addElement3.appendChild(textNode);
         navBarProject.appendChild(addElement3);
     }
 
-    for (let i = 1, n = projects.length; i < n; i++) {
-        if (projects[i].status == true) {
+    for (let i = 1, n = projectsLS.length; i < n; i++) {
+        if (projectsLS[i].status == true) {
             insertProject(i);
         }
     }
-    if (projects[0].openTasks.length > 0) {
+    if (projectsLS[0].openTasks.length > 0) {
         insertProject(0);
     }
 }
 
 function insertTasks(projectNum, status) {
     const mainContent = document.querySelector('#mainOpenTaskContainer');
-    for (let i = 0, n = (status == "open") ? projects[projectNum].openTasks.length : projects[projectNum].completedTasks.length; i < n; i++) {
-        const currentTask = (status == "open") ? projects[projectNum].openTasks[i] : projects[projectNum].completedTasks[i];
+    const projectsLS = JSON.parse(localStorage.getItem("projects"));
+
+    for (let i = 0, n = (status == "open") ? projectsLS[projectNum].openTasks.length : projectsLS[projectNum].completedTasks.length; i < n; i++) {
+        const currentTask = (status == "open") ? projectsLS[projectNum].openTasks[i] : projectsLS[projectNum].completedTasks[i];
         const addMainContentTask = document.createElement("div");
         addMainContentTask.className = "mainContentTask";
         mainContent.appendChild(addMainContentTask);
@@ -318,7 +324,7 @@ function insertTasks(projectNum, status) {
         addElement3.className = "mainContentTaskText";
         addElement3.textContent = currentTask.title;
         addMainContentTask.appendChild(addElement3);
-
+        
         const addElement4 = document.createElement("div");
         addElement4.className = "mainContentTaskText";
         addElement4.textContent = formatDate(currentTask.dueDate);
@@ -330,6 +336,7 @@ function insertTasks(projectNum, status) {
         addElement5.className = "editTask";
         addElement5.addEventListener('click', ()=> {openTaskEdit(i, projectNum, status)});
         addMainContentTask.appendChild(addElement5);
+        
     }
 }
 
@@ -416,9 +423,49 @@ function displayTasks(projectNum) {
     insertTasks(projectNum, "completed");
 }
 
+function storageAvailable(type) {
+    //function source: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+
+        //if (localStorage.getItem("projects") === null) {
+            loadOrigData();
+        //}
+
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
 
 (function main() {
+    //check localstorage    
+    if (!storageAvailable('localStorage')) { 
+        alert("This site uses settings on your browser that are not available or turned off. Please enable localstorage.");
+    }
+
+    //display the navbar
     displayProjects(1);
+
+    //populate the projects as options for editing tasks
     generateProjectOptionsToDropdown();
+
+    //display the tasks for selected project
     displayTasks(1);
 })()
