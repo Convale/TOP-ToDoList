@@ -20,4 +20,4 @@ If I was to further develope here's my next steps:
         clear origDataset
         re-populate origDataset
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.PNG)
