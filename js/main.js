@@ -432,9 +432,9 @@ function storageAvailable(type) {
         storage.setItem(x, x);
         storage.removeItem(x);
 
-        //if (localStorage.getItem("projects") === null) {
+        if (localStorage.getItem("projects") === null) {
             loadOrigData();
-        //}
+        }
 
         return true;
     }
