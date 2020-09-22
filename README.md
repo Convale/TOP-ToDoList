@@ -8,7 +8,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
-
+<br />
 <p align="center">
     <img src="assets/icon.png" alt="Logo" width="80" height="80">
   
