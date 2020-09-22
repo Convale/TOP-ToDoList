@@ -1,394 +1,406 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
-#pageBanner {
-    height: 100px;
-    background-color: #5c5b5b;
-    text-align: center;
-    font-size: 60px;
-    color: whitesmoke;
-    border-bottom-color: #6e6e6e;
-    border-bottom-style: solid;
-    border-bottom-color: 1px;
-    background-color: #5c5b5b;
-    padding-top: 30px;
-}
-
-#content {
-    display: grid;
-    grid-template-columns: 255px auto;
-    height: calc(100vh - 128px);
-    z-index: 1;
-}
-
-#navBar {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    border-right-width: 1px;
-    border-right-color: #6e6e6e;
-    border-right-style: solid;
-    background-color: #5c5b5b;
-    color:whitesmoke;
-}
-
-.navBarBanner {
-    font-size: 30px;
-    margin: 10px 0 10px 0;
-}
-
-.navBarProjectContainer {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
-
-.navBarProject {
-    display: flex;
-    flex-direction: row;
-    margin: 5px 0 0 0;
-    padding-left: 5px;
-    height: 40px;
-    background-color: #5c5b5b;
-    color: whitesmoke;
-    font-size: 15px;
-    font-weight: bold;
-    border: none;
-    outline: 0;
-}
-
-.navBarProjectButton {
-    width: 70%;
-    border: none;
-    font-weight: bold;
-    color: whitesmoke;
-    background-color: #5c5b5b;
-    font-size: 15px;
-    text-align: left;
-}
-
-.navBarProjectSettings {
-    width: 30px;
-    background-color: #5c5b5b;
-    color: whitesmoke;
-    font-size: 5px;
-    font-weight: bold;
-    border-style: none;
-}
-
-.navBarProjectCount {
-    margin-left: 10px;
-}
-
-.navBarProjectHover:hover {
-    background-color: #6e6e6e;
-    transition: background-color 1s;
-}
-
-.navBarProjectHover:focus {
-    outline: 0;
-}
-
-.navBarProjectSettings:hover {
-    background-color: #838383;
-    transition: background-color 1s;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .active {
-    background-color: #6e6e6e;
-    outline: 0;
-}
-
-button#addProject {
-    height: 25px;
-    width: 25px;
-    background-color: #5c5b5b;
-    color: whitesmoke;
-    font-size: 15px;
-    font-weight: bold;
-    border-style: none;
-    border-radius: 5px;
-    margin-left: 20px;
-    border-color: whitesmoke;
-    border-style: ridge;
-    border-width: 1px;
-}
-
-button#addProject:hover {
-    background-color: #6e6e6e;
-    outline: 0;
-}
-
-button#addProject:focus {
-    outline: 0;
-}
-
-.mainOpenTaskContainer {
-    display: flex;
-    flex-direction: column;
-    background-color: #765d5d;
-    color:whitesmoke;
-    padding-top: 10px;
-}
-
-.mainContentTask {
-    display: grid;
-    grid-template-columns: minmax(50px, 80px) minmax(30px, 50px) auto minmax(100px, 200px) minmax(30px, 50px);
-    text-align: center;
-    height: 25px;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 18px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #6e6e6e;
-}
-
-.mainContentTask:hover {
-    background-color: #856969;
-}
-
-.mainContentTaskText {
-    padding-top: 2px;
-}
-
-.mainContentCompletedTask {
-    display: grid;
-    grid-template-columns: minmax(50px, 80px) minmax(30px, 50px) auto minmax(100px, 200px) minmax(30px, 50px);
-    text-align: center;
-    height: 25px;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 18px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #6e6e6e;
-}
-
-.mainContentCompletedTask:hover {
-    background-color: #856969;
-}
-
-.editTask {
-    width: 30px;
-    color: whitesmoke;
-    background-color: #765d5d;
-    font-size: 5px;
-    font-weight: bold;
-    border-style: none;
-}
-
-.editTask:hover {
-    background-color: #977777;
-}
-
-.editTask:focus {
-    outline: 0;
-}
-
-.addTask {
-    width: 50px;
-    height: 25px;
-    color: whitesmoke;
-    background-color: #765d5d;
-    font-weight: bold;
-    border-style: none;
-    font-size: 12px;
-}
-
-.addTask:hover {
-    background-color: #977777;
-}
-
-.addTask:focus {
-    outline: 0;
-}
-
-/* The slider */
-    .completedTask {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 25px;
-    }
-  
-    .completedTask input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #977777;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-    
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 25px;
-        width: 25px;
-        left: 0px;
-        bottom: 0px;
-        background-color: #5c5b5b;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-    
-    input:checked + .slider {
-        background-color: #765d5d;
-    }
-    
-    input:focus + .slider {
-        box-shadow: 0 0 1px #765d5d;
-    }
-    
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-    
-    .slider.round {
-        border-radius: 25px;
-    }
-    
-    .slider.round:before {
-        border-radius: 50%;
-    }
-/* Finish slider */
-
-.mainAddTask {
-    text-align: center;
-    height: 25px;
-    width: 140px;
-    margin-left: 10%;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #6e6e6e;
-    background-color: #765d5d;
-    color: whitesmoke;
-
-}
-
-.mainAddTask:hover {
-    background-color: #856969;
-}
-
-.mainAddTask:focus {
-    outline: 0;
-}
-
-.completedTasks {
-    text-align: left;
-    height: 25px;
-    margin-left: 8%;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    color: #9b9a9a;
-    font-size: 20px;
+  background-color: #6e6e6e;
+  outline: 0;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
-#addEditTaskPriority {
-    color: whitesmoke;
-    background-color: #6e6e6e;
-    outline: 0;
-    margin-top: -5px;
-    height: 19px;
-    width: 80%;
-    font: 15px;
-    border: solid;
-    border-color: #856969;
-    text-align: center;
+/* top banner */
+
+#pageBanner {
+  height: 100px;
+  background-color: #5c5b5b;
+  text-align: center;
+  font-size: 60px;
+  color: whitesmoke;
+  border-bottom-color: #6e6e6e;
+  border-bottom-style: solid;
+  border-bottom-color: 1px;
+  background-color: #5c5b5b;
+  padding-top: 30px;
 }
 
-#addEditTaskTitle {
-    color: whitesmoke;
-    background-color: #6e6e6e;
-    outline: 0;
-    margin-top: -5px;
-    height: 21px;
-    width: 70%;
-    font: 15px;
-    border: solid;
-    border-color: #856969;
-    text-align: center;
+/* project & navigation bar */
+
+#navBar {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-right-width: 1px;
+  border-right-color: #6e6e6e;
+  border-right-style: solid;
+  background-color: #5c5b5b;
+  color: whitesmoke;
 }
 
-#addEditTaskDate {
-    color: whitesmoke;
-    background-color: #6e6e6e;
-    outline: 0;
-    margin-top: -5px;
-    margin-left: 10px;
-    height: 21px;
-    width: 125px;
-    font: 15px;
-    border: solid;
-    border-color: #856969;
-    text-align: center;
+.navBarBanner {
+  font-size: 30px;
+  margin: 10px 0 10px 0;
+}
+
+.navBarProjectContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.navBarProject {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0 0 0;
+  padding-left: 5px;
+  height: 40px;
+  background-color: #5c5b5b;
+  color: whitesmoke;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  outline: 0;
+}
+
+.navBarProjectButton {
+  width: 70%;
+  border: none;
+  font-weight: bold;
+  color: whitesmoke;
+  background-color: #5c5b5b;
+  font-size: 15px;
+  text-align: left;
+}
+
+.navBarProjectSettings {
+  width: 30px;
+  background-color: #5c5b5b;
+  color: whitesmoke;
+  font-size: 5px;
+  font-weight: bold;
+  border-style: none;
+}
+
+.navBarProjectCount {
+  margin-left: 10px;
+}
+
+.navBarProjectHover:hover {
+  background-color: #6e6e6e;
+  transition: background-color 1s;
+}
+
+.navBarProjectHover:focus {
+  outline: 0;
+}
+
+.navBarProjectSettings:hover {
+  background-color: #838383;
+  transition: background-color 1s;
+}
+
+button#addProject {
+  height: 25px;
+  width: 25px;
+  background-color: #5c5b5b;
+  color: whitesmoke;
+  font-size: 15px;
+  font-weight: bold;
+  border-style: none;
+  border-radius: 5px;
+  margin-left: 20px;
+  border-color: whitesmoke;
+  border-style: ridge;
+  border-width: 1px;
+}
+
+button#addProject:hover {
+  background-color: #6e6e6e;
+  outline: 0;
+}
+
+button#addProject:focus {
+  outline: 0;
+}
+
+#editProject {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: 30%;
+  left: 50%;
+  font-size: 20px;
+  color: white;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #856969;
+  text-align: center;
+  border-radius: 15px;
+}
+
+/* main content */
+
+#content {
+  display: grid;
+  grid-template-columns: 255px auto;
+  height: calc(100vh - 128px);
+  z-index: 1;
+}
+
+.mainOpenTaskContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #765d5d;
+  color: whitesmoke;
+  padding-top: 10px;
 }
 
 .editItemLayer {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 2;
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 
-#editTask{
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    top: 30%;
-    left: 50%;
-    font-size: 20px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    background-color: #856969;
-    text-align: center;
-    border-radius: 15px;
+/* tasks */
+
+.mainContentTask {
+  display: grid;
+  grid-template-columns:
+    minmax(50px, 80px) minmax(30px, 50px) auto minmax(100px, 200px)
+    minmax(30px, 50px);
+  text-align: center;
+  height: 25px;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #6e6e6e;
 }
 
-#editProject{
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    top: 30%;
-    left: 50%;
-    font-size: 20px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    background-color: #856969;
-    text-align: center;
-    border-radius: 15px;
+.mainContentTask:hover {
+  background-color: #856969;
+}
+
+.mainContentTaskText {
+  padding-top: 2px;
+}
+
+.mainContentCompletedTask {
+  display: grid;
+  grid-template-columns:
+    minmax(50px, 80px) minmax(30px, 50px) auto minmax(100px, 200px)
+    minmax(30px, 50px);
+  text-align: center;
+  height: 25px;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #6e6e6e;
+}
+
+.mainContentCompletedTask:hover {
+  background-color: #856969;
+}
+
+.mainAddTask {
+  text-align: center;
+  height: 25px;
+  width: 140px;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #6e6e6e;
+  background-color: #765d5d;
+  color: whitesmoke;
+}
+
+.mainAddTask:hover {
+  background-color: #856969;
+}
+
+.mainAddTask:focus {
+  outline: 0;
+}
+
+#editTask {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: 30%;
+  left: 50%;
+  font-size: 20px;
+  color: white;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #856969;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.editTask {
+  width: 30px;
+  color: whitesmoke;
+  background-color: #765d5d;
+  font-size: 5px;
+  font-weight: bold;
+  border-style: none;
+}
+
+.editTask:hover {
+  background-color: #977777;
+}
+
+.editTask:focus {
+  outline: 0;
+}
+
+.addTask {
+  width: 50px;
+  height: 25px;
+  color: whitesmoke;
+  background-color: #765d5d;
+  font-weight: bold;
+  border-style: none;
+  font-size: 12px;
+}
+
+.addTask:hover {
+  background-color: #977777;
+}
+
+.addTask:focus {
+  outline: 0;
+}
+
+.completedTask {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.completedTask input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.completedTasks {
+  text-align: left;
+  height: 25px;
+  margin-left: 8%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: #9b9a9a;
+  font-size: 20px;
+}
+
+#addEditTaskPriority {
+  color: whitesmoke;
+  background-color: #6e6e6e;
+  outline: 0;
+  margin-top: -5px;
+  height: 19px;
+  width: 80%;
+  font: 15px;
+  border: solid;
+  border-color: #856969;
+  text-align: center;
+}
+
+#addEditTaskTitle {
+  color: whitesmoke;
+  background-color: #6e6e6e;
+  outline: 0;
+  margin-top: -5px;
+  height: 21px;
+  width: 70%;
+  font: 15px;
+  border: solid;
+  border-color: #856969;
+  text-align: center;
+}
+
+#addEditTaskDate {
+  color: whitesmoke;
+  background-color: #6e6e6e;
+  outline: 0;
+  margin-top: -5px;
+  margin-left: 10px;
+  height: 21px;
+  width: 125px;
+  font: 15px;
+  border: solid;
+  border-color: #856969;
+  text-align: center;
+}
+
+/* The slider */
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #977777;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 25px;
+  width: 25px;
+  left: 0px;
+  bottom: 0px;
+  background-color: #5c5b5b;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #765d5d;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #765d5d;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 25px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
