@@ -122,4 +122,4 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/Convale/TO
 [license-url]: https://github.com/Convale/TOP-ToDoList/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/payneshaun
-[product-screenshot]: assets/snapshot.png
+[product-screenshot]: assets/screenshot.png
